@@ -46,10 +46,18 @@ python scripts/generate_harder_tasks.py   # writes data/{drag,kepler,driven,coup
 
 ## Trained adapters
 
-QLoRA adapters for Qwen2.5-Coder-{1.5B, 3B, 7B}-Instruct (37–80 MB each) are
-distributed through the Hugging Face Hub rather than git:
-TODO-HF-LINK. Download one into `checkpoints/` and pass it as `--adapter_path`
-below.
+QLoRA adapters for Qwen2.5-Coder-Instruct are on the Hugging Face Hub:
+
+| Base model | Adapter |
+|---|---|
+| Qwen2.5-Coder-1.5B-Instruct | [lamamkh/PhysAgentGym-Qwen2.5-Coder-1.5B](https://huggingface.co/lamamkh/PhysAgentGym-Qwen2.5-Coder-1.5B) |
+| Qwen2.5-Coder-3B-Instruct | [lamamkh/PhysAgentGym-Qwen2.5-Coder-3B](https://huggingface.co/lamamkh/PhysAgentGym-Qwen2.5-Coder-3B) |
+| Qwen2.5-Coder-7B-Instruct | lamamkh/PhysAgentGym-Qwen2.5-Coder-7B (coming soon) |
+
+The released adapters were retrained with the same code, data and seed 42 as
+the paper. They score 0.711 (1.5B) and 0.894 (3B) on the 120 test tasks,
+against 0.702 and 0.888 reported in the paper. Download one into
+`checkpoints/` and pass it as `--adapter_path` below.
 
 ## Quickstart
 
