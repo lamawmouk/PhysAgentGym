@@ -65,7 +65,8 @@ sup { font-size: 0.62em; }
   border: 1.5px solid var(--purple); color: var(--purple); background: #fff;
   font: 600 0.82rem 'IBM Plex Mono', monospace; letter-spacing: 0.04em;
 }
-.title { margin: 0 auto 26px; max-width: 940px; font-size: clamp(1.9rem, 4.6vw, 3.4rem); line-height: 1.15; }
+.title { margin: 0 auto 22px; max-width: 760px; font-size: clamp(1.45rem, 3vw, 2.15rem); line-height: 1.25; }
+.title .grad { color: var(--green); }
 .authors { margin: 0; font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 600; color: var(--ink); }
 .affil { margin: 8px 0 0; display: inline-flex; }
 .affil-logo { height: 64px; width: auto; }
@@ -199,4 +200,5 @@ h3 { font-size: 1.05rem; margin: 0 0 6px; }
 }
 @media (max-width: 520px) {
   .nav-links a:not(.nav-cite) { display: none; }
+  .title br:nth-of-type(2) { display: none; }
 }
