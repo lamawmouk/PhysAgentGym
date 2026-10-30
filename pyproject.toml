@@ -1,0 +1,39 @@
+[project]
+name = "physagentgym"
+version = "0.1.0"
+description = "Agentic code-execution gym where LLMs simulate physics scenarios, scored by label-free physical-law verifiers (physjudge vendored)."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Lama Moukheiber" }]
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "gymnasium>=0.29",
+]
+
+[project.optional-dependencies]
+llm = ["anthropic>=0.40", "openai>=1.50"]
+training = [
+    "transformers>=4.46",
+    "datasets>=3.0",
+    "trl>=0.12",
+    "peft>=0.13",
+    "accelerate>=1.0",
+    "bitsandbytes>=0.44",
+]
+dev = ["pytest>=8.0"]
+
+[project.urls]
+Homepage = "https://lamawmouk.github.io/PhysAgentGym/"
+Repository = "https://github.com/lamawmouk/PhysAgentGym"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/physics_gym", "src/physjudge"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

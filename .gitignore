@@ -1,0 +1,27 @@
+# build / cache
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.venv/
+.pytest_cache/
+cache/
+logs/
+.DS_Store
+
+# run outputs and model weights (adapters are released on the Hugging Face Hub)
+results/
+checkpoints/
+*.safetensors
+*.bin
+
+# large raw file shipped as .gz (GitHub 100MB limit)
+data/circular_motion/train_tasks.jsonl
+
+# composite subcategories: train splits are regenerated deterministically by
+# scripts/generate_harder_tasks.py
+data/drag/train_tasks.jsonl
+data/kepler/train_tasks.jsonl
+data/driven/train_tasks.jsonl
+data/coupled/train_tasks.jsonl
