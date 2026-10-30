@@ -42,8 +42,7 @@
       <!-- TODO-PAPER-LINK: point to the NeurIPS proceedings or OpenReview page and drop is-soon once it is out -->
       <a class="btn is-soon" href="#" aria-disabled="true"><i class="fas fa-file-pdf"></i>NeurIPS camera-ready <small>link coming soon</small></a>
       <a class="btn" href="https://github.com/lamawmouk/PhysAgentGym" target="_blank" rel="noopener"><i class="fab fa-github"></i>Code</a>
-      <!-- TODO-HF-LINK: replace with the Hugging Face URL and drop is-soon once the adapters are uploaded -->
-      <a class="btn is-soon" href="#" aria-disabled="true"><i class="fas fa-cube"></i>Adapters <small>coming soon</small></a>
+      <a class="btn" href="https://huggingface.co/lamamkh" target="_blank" rel="noopener"><i class="fas fa-cube"></i>Adapters</a>
       <a class="btn btn-accent" href="#cite"><i class="fas fa-quote-right"></i>BibTeX</a>
     </div>
 
@@ -70,8 +69,8 @@
           <div class="stat-label">high-scoring episodes <br>are physically correct</div>
         </div>
         <div class="stat">
-          <div class="stat-num grad">37–80 MB</div>
-          <div class="stat-label">adapters that <br>run locally</div>
+          <div class="stat-num grad">+48.7</div>
+          <div class="stat-label">points at 7B on Damping, <br>held out from training</div>
         </div>
       </div>
     </div>
@@ -88,7 +87,7 @@
         language model reads a physics scenario, writes Python that simulates it, and is scored by a verifier that turns natural-language
         standards into checks on the emitted trajectory. Audited against withheld exact solutions, all 281 test episodes that the verifier
         scored at least 0.9 are physically correct. Fine-tuning Qwen2.5-Coder on 491 rollouts selected by the verifier lifts the 7B model
-        from 0.67 to 0.94, on par with Claude Sonnet 4.5, including on a held-out phenomenon, as a 37–80 MB adapter that runs locally. The
+        from 0.67 to 0.94, on par with Claude Sonnet 4.5, including on a held-out phenomenon. The
         1.5B and 3B models rise from near zero to 0.70 and 0.89. Frontier models already reach the highest score the metric gives in
         practice, so the benchmark's value lies in measuring how small models learn, and reliable training needs at least 3B parameters.</p>
     </div>
@@ -292,8 +291,6 @@
       <li><strong>The signal works on its own.</strong> It lifts the base models by 70, 88 and 27 points with no human labels, unit tests or
         reward model.</li>
       <li><strong>It transfers.</strong> The 7B model gains 48.7 points on Damping, a phenomenon absent from training.</li>
-      <li><strong>It is practical.</strong> Training takes 11 to 25 minutes on one GPU and gives 37–80 MB adapters that run locally on
-        private data.</li>
       <li><strong>Scope.</strong> The tasks cover single-body classical mechanics, a small part of physics. The method fits wherever each
         rule is an exact, computable property of the trajectory, and leaves out chaotic, contact-rich, random and turbulent systems.</li>
     </ul>
