@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PhysAgentGym: Free Physical-Law Verifiers</title>
+  <title>PhysAgentGym: Annotation-Free Physical-Law Verifiers</title>
   <meta name="description" content="PhysAgentGym: physical laws score a code-writing agent's trajectory with no answer key. Training Qwen2.5-Coder 7B on 491 verifier-selected rollouts lifts it from 0.668 to 0.942, on par with Claude Sonnet 4.5.">
-  <meta property="og:title" content="PhysAgentGym: Free Physical-Law Verifiers for Training Small Code-Reasoning Agents">
-  <meta property="og:description" content="Physical laws as free rewards for code-writing agents. NeurIPS 2026.">
+  <meta property="og:title" content="PhysAgentGym: Annotation-Free Physical-Law Verifiers for Training Small Code-Reasoning Agents">
+  <meta property="og:description" content="Physical laws as annotation-free verifiers for code-writing agents. NeurIPS 2026.">
   <meta property="og:image" content="./static/images/fig_teaser.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,7 +33,7 @@
 <header class="hero" id="top">
   <div class="wrap">
     <p class="venue">NeurIPS 2026</p>
-    <h1 class="title"><span class="grad">PhysAgentGym:</span><br>Free Physical-Law Verifiers for Training Small Code-Reasoning Agents</h1>
+    <h1 class="title"><span class="grad">PhysAgentGym:</span><br>Annotation-Free Physical-Law Verifiers for Training Small Code-Reasoning Agents</h1>
 
     <p class="authors">Lama Moukheiber</p>
     <p class="affil"><img class="affil-logo" src="./static/images/gt_logo.svg" alt="Georgia Institute of Technology"></p>
@@ -47,9 +47,10 @@
     </div>
 
     <figure class="card figure hero-figure wide" style="max-width: 980px">
-      <img src="./static/images/fig_teaser.png" alt="Four panels: a scenario, an LLM agent that writes and runs code, a physical-law verifier that scores the trajectory, and bar charts of small models before and after training.">
-      <figcaption>An LLM agent writes code that simulates a scenario. Physical laws score the resulting trajectory with no answer key,
-        and the best-scoring rollouts fine-tune small models close to the frontier.</figcaption>
+      <img src="./static/images/fig_teaser.png?v=3" alt="Four panels: a scenario, an LLM agent that writes and runs code, a physical-law verifier that scores the trajectory, and bar charts of small models before and after training.">
+      <figcaption>PhysAgentGym verifies with physical laws instead of expert labels, unit tests, or reward models. An LLM agent writes
+        code that simulates a scenario, the laws score its trajectory with no answer key, and fine-tuning on the verified rollouts brings
+        a 7B model to the frontier.</figcaption>
     </figure>
 
     <div class="summary">
@@ -81,15 +82,21 @@
   <div class="wrap narrow">
     <p class="kicker">Abstract</p>
     <div class="abstract">
-      <p>Code-reasoning agents are usually trained with costly verifiers: expert annotation, hand-written unit tests, or learned reward
-        models. We show that where correctness follows closed-form physical laws, the laws themselves provide dense, automatic rewards with
-        no per-task answer key. We build <strong>PhysAgentGym</strong>, a code-execution gym for single-body classical mechanics in which a
-        language model reads a physics scenario, writes Python that simulates it, and is scored by a verifier that turns natural-language
-        standards into checks on the emitted trajectory. Audited against withheld exact solutions, all 281 test episodes that the verifier
-        scored at least 0.9 are physically correct. Fine-tuning Qwen2.5-Coder on 491 rollouts selected by the verifier lifts the 7B model
-        from 0.67 to 0.94, on par with Claude Sonnet 4.5, including on a held-out phenomenon. The
-        1.5B and 3B models rise from near zero to 0.70 and 0.89. Frontier models already reach the highest score the metric gives in
-        practice, so the benchmark's value lies in measuring how small models learn, and reliable training needs at least 3B parameters.</p>
+      <p>Code-reasoning agents trained from rollouts rely on verifiers, such as expert annotation, hand-written unit tests, or learned
+        reward models, each of which needs human effort for every new domain. However, in domains governed by closed-form physical laws,
+        whether the laws themselves can serve as automatic verifiers remains unclear. In this work, we seek to understand whether physical
+        laws can score an agent's simulation without annotation, whether these scores reflect correct physics, and whether they can train
+        small models. We propose <strong>PhysAgentGym</strong>, an agentic code-execution gym for classical mechanics of point masses, in
+        which a language model writes a Python program that simulates a physics scenario and a rule-based verifier compiles
+        natural-language standards into checks on the emitted trajectory. The scores are annotation-free, since physical laws supply the
+        ground truth and neither the agent nor the verifier reads the exact solution. An audit against these withheld solutions shows that
+        every high-scoring test episode of Claude Sonnet 4.5, Claude Opus 4.8, GPT&#8209;5, and our trained 7B model is physically correct.
+        Fine-tuning Qwen2.5-Coder at 1.5B, 3B, and 7B on Claude Sonnet 4.5 rollouts selected by the verifier brings the 7B model
+        statistically on par with Sonnet 4.5 and GPT&#8209;5. It matches Sonnet 4.5 on held-out Circular Motion and comes close on held-out
+        Damping, a phenomenon absent from training. Training is reliable from 3B up, selecting training data by score, not only by whether
+        every check passes, helps the 1.5B model, and frontier models already reach the highest score the verifier gives in practice. On
+        harder composite tasks with drag, orbits, and driven and coupled oscillators, the exact solution earns nearly the full score, the
+        verifier separates correct from wrong physics, and Claude Opus 4.8 scores measurably above Sonnet 4.5.</p>
     </div>
   </div>
 </section>
@@ -102,10 +109,10 @@
       simulates the scenario, and a verifier checks the resulting trajectory against each rule.</p>
 
     <figure class="card figure wide">
-      <img src="./static/images/fig_overview.png" alt="Diagram of one test episode, a thrown point mass: the task and its four rules, the compiler, the agent's code and trajectory, and the four physics checks that score it.">
+      <img src="./static/images/fig_overview.png?v=3" alt="Diagram of one test episode, a thrown point mass: the task and its four rules, the compiler, the agent's code and trajectory, and the four physics checks that score it.">
       <figcaption>How PhysAgentGym scores one real test episode, a thrown point mass. Each rule of the task is turned once into a physics
         check, by a hand-written pattern or, when none matches, by an LLM. The agent's code produces a trajectory that every check scores,
-        and the agent can revise its code using the results. Numbers give the order of the steps.</figcaption>
+        and the agent can revise its code using the results (numbers give the order of the steps).</figcaption>
     </figure>
 
     <div class="steps four">
@@ -124,22 +131,22 @@
       <div class="step-card c-green">
         <div class="step-num">3</div>
         <h3>Verifier</h3>
-        <p>Each rule becomes one of 19 physics checks, such as a parabola fit or an energy check. Each check scores the trajectory from 0 to
-          1. The exact solution stays hidden from the agent and the verifier.</p>
+        <p>Each rule becomes one of 19 physics checks, such as a parabola fit or an energy check, that scores the trajectory from 0 to 1,
+          while the exact solution stays hidden from the agent and the verifier.</p>
       </div>
       <div class="step-card c-purple">
         <div class="step-num">4</div>
         <h3>Training</h3>
-        <p>Claude Sonnet 4.5 rollouts that pass every check with a mean score of at least 0.85 give 491 conversations. QLoRA fine-tunes
-          Qwen2.5-Coder on them in 11 to 25 minutes on one GPU.</p>
+        <p>Claude Sonnet 4.5 rollouts that pass every check with a mean score of at least 0.85 give 491 conversations, on which QLoRA
+          fine-tunes Qwen2.5-Coder at 1.5B, 3B, and 7B.</p>
       </div>
     </div>
 
     <div class="chips">
-      <span class="chip"><i class="fas fa-atom"></i>Single-body classical mechanics</span>
+      <span class="chip"><i class="fas fa-atom"></i>Classical mechanics of point masses</span>
       <span class="chip"><i class="fas fa-layer-group"></i>1,320 generated tasks</span>
-      <span class="chip"><i class="fas fa-shapes"></i>4 subcategories, 10 regimes</span>
-      <span class="chip"><i class="fas fa-file-lines"></i>30 rule templates</span>
+      <span class="chip"><i class="fas fa-shapes"></i>4 subcategories, 10 types of motion</span>
+      <span class="chip"><i class="fas fa-file-lines"></i>30 distinct standards</span>
       <span class="chip"><i class="fas fa-key"></i>No answer key at scoring time</span>
     </div>
   </div>
@@ -148,16 +155,15 @@
 <section class="section" id="results">
   <div class="wrap">
     <p class="kicker center">Results</p>
-    <h2 class="center">Small models learn from the verifier alone</h2>
+    <h2 class="center">Small models learn from the verifier&#8217;s signal</h2>
     <p class="lead center narrow-text">Untrained Qwen2.5-Coder scores 0.000, 0.011 and 0.668 at 1.5B, 3B and 7B. After training on the 491
       verifier-selected rollouts it scores 0.702, 0.888 and 0.942. The 7B model is statistically on par with Claude Sonnet 4.5, and gains
       48.7 points on Damping, a phenomenon absent from training.</p>
 
     <div class="card tables" style="padding: 18px 22px">
       <h3>Mean verifier score on the 120 test tasks</h3>
-      <p class="fine" style="margin-top:0">30 tasks per subcategory, failures scored 0, 95% bootstrap interval on the aggregate. Circular
-        Motion is near out of distribution and Damping is far out of distribution. Green rows are the main runs.
-        <sup>†</sup>Run through a headless CLI harness, the other frontier rows use the provider API.</p>
+      <p class="fine" style="margin-top:0">30 tasks per subcategory, episodes with no parseable action scored 0, 95% bootstrap interval on
+        the aggregate. Circular Motion is near out of distribution and Damping is far out of distribution. Green rows are the main runs.</p>
       <div class="table-wrapper"><table class="results-table">
 <thead>
 <tr><th>Model</th><th>PE-KE</th><th>Linear</th><th>Circular</th><th>Damping</th><th>Aggregate [95% CI]</th></tr>
@@ -167,7 +173,7 @@
 <tr><td>Claude Sonnet 4.5</td><td>0.959</td><td>0.971</td><td>0.911</td><td>0.935</td><td>0.944 [0.930, 0.957]</td></tr>
 <tr><td>GPT-5</td><td>0.959</td><td>0.970</td><td>0.885</td><td>0.935</td><td>0.937 [0.916, 0.955]</td></tr>
 <tr><td>GPT-5, high reasoning</td><td>0.959</td><td>0.970</td><td>0.911</td><td>0.935</td><td>0.944 [0.931, 0.957]</td></tr>
-<tr><td>Claude Opus 4.8<sup>†</sup></td><td>0.959</td><td>0.970</td><td>0.911</td><td>0.935</td><td>0.944 [0.931, 0.957]</td></tr>
+<tr><td>Claude Opus 4.8</td><td>0.959</td><td>0.970</td><td>0.911</td><td>0.935</td><td>0.944 [0.931, 0.957]</td></tr>
 <tr class="group-row"><td colspan="6">Qwen2.5-Coder-Instruct, zero-shot</td></tr>
 <tr><td>1.5B</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000 [0.000, 0.000]</td></tr>
 <tr><td>3B</td><td>0.000</td><td>0.000</td><td>0.045</td><td>0.000</td><td>0.011 [0.000, 0.028]</td></tr>
@@ -179,7 +185,7 @@
 <tr><td>3B, pass-only filter</td><td>0.915</td><td>0.971</td><td>0.881</td><td>0.750</td><td>0.879 [0.842, 0.912]</td></tr>
 <tr><td>7B, seed 1</td><td>0.930</td><td>0.971</td><td>0.919</td><td>0.935</td><td>0.939 [0.924, 0.953]</td></tr>
 <tr><td>7B, pass-only filter</td><td>0.945</td><td>0.971</td><td>0.911</td><td>0.935</td><td>0.941 [0.926, 0.954]</td></tr>
-<tr class="group-row"><td colspan="6">Qwen2.5-Coder-Instruct trained on verifier-approved rollouts, main runs (ours)</td></tr>
+<tr class="group-row"><td colspan="6">Qwen2.5-Coder-Instruct trained on verifier-selected rollouts, main runs (ours)</td></tr>
 <tr class="ours-row"><td>1.5B</td><td>0.928</td><td>0.871</td><td>0.814</td><td>0.197</td><td><strong>0.702</strong> [0.629, 0.778]</td></tr>
 <tr class="ours-row"><td>3B</td><td>0.902</td><td>0.971</td><td>0.911</td><td>0.769</td><td><strong>0.888</strong> [0.858, 0.916]</td></tr>
 <tr class="ours-row"><td>7B</td><td>0.959</td><td>0.971</td><td>0.911</td><td>0.927</td><td><strong>0.942</strong> [0.928, 0.956]</td></tr>
@@ -188,22 +194,22 @@
     </div>
 
     <figure class="card figure wide">
-      <img src="./static/images/fig_scale.png" alt="Three charts: (a) mean score by model size per subcategory, zero-shot and trained, against the frontier line, (b) verifier score of every audited test episode, split into physically correct and wrong, (c) gain from the stricter training-data filter at 1.5B, 3B and 7B.">
+      <img src="./static/images/fig_scale.png?v=3" alt="Three charts: (a) mean score by model size per subcategory, zero-shot and trained, against the frontier line, (b) verifier score of every audited test episode, split into physically correct and wrong, (c) gain from the stricter training-data filter at 1.5B, 3B and 7B.">
       <figcaption><strong>(a)</strong> Mean score by model size on each subcategory with 95% bootstrap intervals. The dashed line is the
         mean of the four frontier models, and the blue number is the 7B gain over zero-shot in points. <strong>(b)</strong> Verifier score
-        for every test episode of Claude Sonnet 4.5, GPT-5 and our 7B model, 359 in all, split by whether the trajectory is within 5% of the
-        exact solution. <strong>(c)</strong> Aggregate gain from a stricter training-data filter, which keeps rollouts that pass every check
-        and score at least 0.85, over keeping every rollout that passes all checks.</figcaption>
+        of every test episode of Claude Sonnet 4.5, GPT-5, and our 7B model (359 episodes), split by whether the trajectory is within 5% of
+        the exact solution. <strong>(c)</strong> Aggregate gain from the combined training-data filter over the pass-only
+        filter.</figcaption>
     </figure>
 
     <div class="grid3">
-      <div class="mini-card"><h3>A tie with the teacher</h3><p>On the same 120 tasks the 7B model's scores differ from Sonnet's by 0.002 on
-        average, and an equivalence test shows the two agree to within 0.01. The 7B model learns from Sonnet's own rollouts, so a tie is
-        the expected best.</p></div>
-      <div class="mini-card"><h3>3B is the reliable floor</h3><p>Below 3B, models often stop producing valid actions on held-out tasks and
-        training seeds disagree. The two 3B seeds agree to 0.7 points, and from 3B up training is stable across seeds.</p></div>
-      <div class="mini-card"><h3>The score picks better data</h3><p>Keeping only rollouts that also score at least 0.85 beats keeping every
-        rollout that passes, at every size: 12.7, 0.9 and 0.1 points at 1.5B, 3B and 7B.</p></div>
+      <div class="mini-card"><h3>The 7B model ties with Sonnet 4.5</h3><p>On the same 120 tasks the 7B model's scores differ from
+        Sonnet's by 0.002 on average, and an equivalence test shows the two agree to within 0.01.</p></div>
+      <div class="mini-card"><h3>Training is reliable from 3B up</h3><p>At 1.5B the two training seeds differ by 3.6 points, mostly on
+        Damping, where the 1.5B models produce a parseable action in only 3 to 20 of 30 episodes, whereas the two 3B seeds differ by 0.7
+        points.</p></div>
+      <div class="mini-card"><h3>Choosing data by score helps at 1.5B</h3><p>Keeping only rollouts that also score at least 0.85 adds 12.7
+        points at 1.5B, while the gains at 3B and 7B, 0.9 and 0.1 points, are not statistically significant.</p></div>
     </div>
   </div>
 </section>
@@ -211,11 +217,11 @@
 <section class="section alt" id="audit">
   <div class="wrap">
     <p class="kicker center">Verifier audit</p>
-    <h2 class="center">Every high score is a correct trajectory</h2>
-    <p class="lead center narrow-text">Two frontier models agreeing shows the verifier is consistent, not that it is correct. So we checked it
-      against the exact solutions, which neither the agent nor the verifier sees. We re-ran the best code of all 360 test episodes of Claude
-      Sonnet 4.5, GPT-5 and our 7B model, and called a trajectory correct if its error is below 5%. One GPT-5 episode had no runnable code,
-      which leaves 359.</p>
+    <h2 class="center">Every audited high score is a correct trajectory</h2>
+    <p class="lead center narrow-text">Two frontier models agreeing shows the verifier is consistent, not that it is correct, so we checked
+      it against the exact solutions, which neither the agent nor the verifier sees. For the 359 test episodes of Claude Sonnet 4.5, GPT-5,
+      and our 7B model that contain a parseable action, we re-ran the best-scoring code and called a trajectory physically correct if its
+      error is below 5% and it covers at least 95% of the solution's duration.</p>
 
     <div class="audit">
       <div class="mini-card c-green">
@@ -230,16 +236,16 @@
       </div>
       <div class="mini-card c-orange">
         <p class="big">51 of 51</p>
-        <h3>Errors only run one way</h3>
+        <h3>Low scores do not always mean wrong physics</h3>
         <p>All 51 frontier episodes scoring below 0.9 are still correct. Of the 27 such 7B episodes, 7 are wrong, and all 7 score below 0.9.</p>
       </div>
     </div>
 
     <div class="callout green narrow-text">
       <i class="fas fa-circle-info"></i>
-      <p>When the verifier errs, it gives too little credit, not too much. The low scores on correct trajectories come mostly from the
-        smoothness rule, which marks down Ferris-wheel and constant-acceleration motion, and from the damping rules. These tolerances cap
-        scores near 0.94 and are the first part of the verifier to improve.</p>
+      <p>The low scores on correct trajectories come mostly from the smoothness rule, which marks down Ferris-wheel and
+        constant-acceleration motion, and from the damping rules, so these tolerances, not the agents, cap scores near 0.94. Beyond the
+        audited models, 21 of the 794 high-scoring trajectories of the other trained runs (under 3%) differ from the exact solution.</p>
     </div>
   </div>
 </section>
@@ -256,7 +262,7 @@
     <div class="card tables" style="padding: 18px 22px">
       <div class="table-wrapper"><table class="results-table">
 <thead>
-<tr><th rowspan="2">Subcategory</th><th colspan="3">Verifier score on known answers</th><th colspan="2">Frontier models<sup>†</sup></th></tr>
+<tr><th rowspan="2">Subcategory</th><th colspan="3">Verifier score on known answers</th><th colspan="2">Frontier models</th></tr>
 <tr><th>Exact solution</th><th>Numerical solver</th><th>Wrong physics</th><th>Sonnet 4.5</th><th>Opus 4.8</th></tr>
 </thead>
 <tbody>
@@ -268,17 +274,17 @@
 </tbody>
 </table></div>
       <p class="fine">30 test tasks each. The numerical solver is SciPy's standard solver at default settings, with its largest error in
-        brackets. Wrong-physics answers drop or distort one term. <sup>†</sup>Both run through the CLI harness, so Sonnet here is not
-        directly comparable to the main table.</p>
+        brackets. Wrong-physics answers drop or distort one term.</p>
     </div>
 
     <div class="grid3">
-      <div class="mini-card"><h3>A perfect answer earns nearly full marks</h3><p>The exact solution scores 0.989 to 0.998, against about
-        0.94 on the original four subcategories.</p></div>
-      <div class="mini-card"><h3>Wrong physics is caught</h3><p>Every deliberately wrong solution tested, such as ignoring drag or using a
-        crude integrator, scores 0.75 or less.</p></div>
-      <div class="mini-card"><h3>Frontier models solve them too</h3><p>Sonnet 4.5 scores 0.990 and Opus 4.8 scores 0.995. All 240
-        submissions are physically correct and score at least 0.9. Opus leads by 0.005 in a paired bootstrap.</p></div>
+      <div class="mini-card"><h3>A correct answer earns nearly the full score</h3><p>The exact solution scores 0.989 to 0.998, against
+        about 0.94 on the original four subcategories.</p></div>
+      <div class="mini-card"><h3>Wrong physics scores low</h3><p>Every wrong solution we constructed, such as one that ignores drag or uses
+        a crude integrator, scores 0.76 or less.</p></div>
+      <div class="mini-card"><h3>Frontier models solve them too</h3><p>Sonnet 4.5 scores 0.990 and Opus 4.8 scores 0.995, and all 240
+        submissions are physically correct and score at least 0.9. Opus leads by 0.005 in a paired bootstrap, a measurable gap, while the
+        two tie on the main tasks.</p></div>
     </div>
   </div>
 </section>
@@ -286,13 +292,14 @@
 <section class="section alt" id="takeaways">
   <div class="wrap narrow">
     <p class="kicker">Takeaways</p>
-    <h2>Physical laws are a free source of rewards</h2>
+    <h2>Physical laws are a free source of verification</h2>
     <ul class="takeaways">
       <li><strong>The signal works on its own.</strong> It lifts the base models by 70, 88 and 27 points with no human labels, unit tests or
         reward model.</li>
       <li><strong>It transfers.</strong> The 7B model gains 48.7 points on Damping, a phenomenon absent from training.</li>
-      <li><strong>Scope.</strong> The tasks cover single-body classical mechanics, a small part of physics. The method fits wherever each
-        rule is an exact, computable property of the trajectory, and leaves out chaotic, contact-rich, random and turbulent systems.</li>
+      <li><strong>Scope.</strong> The tasks cover classical mechanics of one or two point masses, a small part of physics. The method fits
+        wherever each rule is an exact, computable property of the trajectory, and leaves out chaotic, contact-rich, random and turbulent
+        systems.</li>
     </ul>
   </div>
 </section>
@@ -303,8 +310,8 @@
     <div class="bib">
       <button class="copy" id="copy-bib" type="button"><i class="far fa-copy"></i><span>Copy</span></button>
 <pre id="bibtex">@inproceedings{moukheiber2026physagentgym,
-  title     = {PhysAgentGym: Free Physical-Law Verifiers for Training
-               Small Code-Reasoning Agents},
+  title     = {PhysAgentGym: Annotation-Free Physical-Law Verifiers for
+               Training Small Code-Reasoning Agents},
   author    = {Moukheiber, Lama},
   booktitle = {Advances in Neural Information Processing Systems},
   year      = {2026}
