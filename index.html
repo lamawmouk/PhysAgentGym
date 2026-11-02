@@ -6,7 +6,7 @@
   <title>PhysAgentGym: Physical-Law Verifiers</title>
   <meta name="description" content="PhysAgentGym: physical laws score a code-writing agent's trajectory with no answer key. Training Qwen2.5-Coder 7B on 491 verifier-selected rollouts lifts it from 0.668 to 0.942, on par with Claude Sonnet 4.5.">
   <meta property="og:title" content="PhysAgentGym: Physical-Law Verifiers for Training Small Code-Reasoning Agents">
-  <meta property="og:description" content="Physical laws as annotation-free verifiers for code-writing agents. NeurIPS 2026.">
+  <meta property="og:description" content="Physical laws as verifiers for code-writing agents. NeurIPS 2026.">
   <meta property="og:image" content="./static/images/fig_teaser.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -86,8 +86,8 @@
         reward models, each of which needs human effort for every new domain. However, in domains governed by closed-form physical laws,
         whether the laws themselves can serve as automatic verifiers remains unclear. We propose <strong>PhysAgentGym</strong>, an agentic code-execution gym for classical mechanics of point masses, in
         which a language model writes a Python program that simulates a physics scenario and a rule-based verifier compiles
-        natural-language standards into checks on the emitted trajectory. The scores are annotation-free, since physical laws supply the
-        ground truth and neither the agent nor the verifier reads the exact solution, and an audit against these withheld solutions shows
+        natural-language standards into checks on the emitted trajectory. Physical laws supply the ground truth, so neither the agent nor the
+        verifier reads the exact solution, and an audit against these withheld solutions shows
         that every highly scored test trajectory from Claude Sonnet 4.5, Claude Opus 4.8, GPT&#8209;5, and our trained 7B model matches its
         exact solution. Fine-tuning Qwen2.5-Coder on Claude Sonnet 4.5 rollouts selected by the verifier brings the 7B model
         statistically on par with Sonnet 4.5 and GPT&#8209;5. It matches Sonnet 4.5 on held-out Circular Motion and comes close on held-out
