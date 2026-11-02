@@ -84,9 +84,7 @@
     <div class="abstract">
       <p>Code-reasoning agents trained from rollouts rely on verifiers, such as expert annotation, hand-written unit tests, or learned
         reward models, each of which needs human effort for every new domain. However, in domains governed by closed-form physical laws,
-        whether the laws themselves can serve as automatic verifiers remains unclear. In this work, we seek to understand whether physical
-        laws can score an agent's simulation without annotation, whether these scores reflect correct physics, and whether they can train
-        small models. We propose <strong>PhysAgentGym</strong>, an agentic code-execution gym for classical mechanics of point masses, in
+        whether the laws themselves can serve as automatic verifiers remains unclear. We propose <strong>PhysAgentGym</strong>, an agentic code-execution gym for classical mechanics of point masses, in
         which a language model writes a Python program that simulates a physics scenario and a rule-based verifier compiles
         natural-language standards into checks on the emitted trajectory. The scores are annotation-free, since physical laws supply the
         ground truth and neither the agent nor the verifier reads the exact solution, and an audit against these withheld solutions shows
