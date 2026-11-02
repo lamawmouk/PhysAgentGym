@@ -90,13 +90,13 @@
         which a language model writes a Python program that simulates a physics scenario and a rule-based verifier compiles
         natural-language standards into checks on the emitted trajectory. The scores are annotation-free, since physical laws supply the
         ground truth and neither the agent nor the verifier reads the exact solution. An audit against these withheld solutions shows that
-        every high-scoring test episode of Claude Sonnet 4.5, Claude Opus 4.8, GPT&#8209;5, and our trained 7B model is physically correct.
+        every test trajectory the verifier scores highly, from Claude Sonnet 4.5, Claude Opus 4.8, GPT&#8209;5, and our trained 7B model,
+        matches the exact solution.
         Fine-tuning Qwen2.5-Coder at 1.5B, 3B, and 7B on Claude Sonnet 4.5 rollouts selected by the verifier brings the 7B model
         statistically on par with Sonnet 4.5 and GPT&#8209;5. It matches Sonnet 4.5 on held-out Circular Motion and comes close on held-out
-        Damping, a phenomenon absent from training. Training is reliable from 3B up, selecting training data by score, not only by whether
-        every check passes, helps the 1.5B model, and frontier models already reach the highest score the verifier gives in practice. On
-        harder composite tasks with drag, orbits, and driven and coupled oscillators, the exact solution earns nearly the full score, the
-        verifier separates correct from wrong physics, and Claude Opus 4.8 scores measurably above Sonnet 4.5.</p>
+        Damping, a phenomenon absent from training. Frontier models already reach the highest score the verifier gives in practice, but on
+        harder composite tasks with drag, orbits, and driven and coupled oscillators, where the exact solution earns nearly the full score,
+        the verifier separates correct from wrong physics and Claude Opus 4.8 scores measurably above Sonnet 4.5.</p>
     </div>
   </div>
 </section>
